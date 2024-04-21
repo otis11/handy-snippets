@@ -1,3 +1,18 @@
+# Table of contents
+
+- [Windows Delete All Files Which Name Includes](#windows-delete-all-files-which-name-includes)
+- [Whatsapp Download All Images](#whatsapp-download-all-images)
+
+### Windows Delete All Files Which Name Includes
+1. Go to your Folder inside explorer
+2. `Shift` + `Right click`
+3. `Open powershell window here`
+```powershell
+# replace FILE_NAME_INCLUDE with the characters your file should include
+get-childitem | where-object {$_.Name -like "*FILE_NAME_INCLUDE*"} | foreach ($_) {remove-item $_.fullname}
+```
+
+### Whatsapp Download All Images
 1. Go to the media page of a whatsapp group
     - Go to Group
     - Click on the 3 dot menu
