@@ -1,15 +1,31 @@
 # Table of contents
 
-- [Windows Delete All Files Which Name Includes](#windows-delete-all-files-which-name-includes)
+- [Windows](#windows)
+    - [Delete All Files Which Name Includes](#delete-all-files-which-name-includes)
+- [Webcomponents](#webcomponents)
+    - [List multi tag elements on website](#list-multi-tag-elements-on-website)
 - [Whatsapp Download All Images](#whatsapp-download-all-images)
 
-### Windows Delete All Files Which Name Includes
+## Windows 
+### Delete All Files Which Name Includes
 1. Go to your Folder inside explorer
 2. `Shift` + `Right click`
 3. `Open powershell window here`
 ```powershell
 # replace FILE_NAME_INCLUDE with the characters your file should include
 get-childitem | where-object {$_.Name -like "*FILE_NAME_INCLUDE*"} | foreach ($_) {remove-item $_.fullname}
+```
+
+## Webcomponents
+### List multi tag elements on website
+Get all multi tag elements on a website
+```js
+Array.from(document.querySelectorAll('*')).filter(el => el.tagName.includes('-'))
+```
+
+Get all unique multi tags on a website
+```js
+[...new Set(Array.from(document.querySelectorAll('*')).filter(el => el.tagName.includes('-')).map(el => el.tagName))]
 ```
 
 ### Whatsapp Download All Images
