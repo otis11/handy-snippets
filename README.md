@@ -1,10 +1,50 @@
 # Table of contents
-
+- [Linux Laptop](#linux-laptop)
+    - [Disable Closing Lid Sleep Mode](#disable-closing-lid-sleep-mode)
+    - [Turn screen off/on](#turn-screen-offon)
+- [SSH](#ssh)
+    - [New SSH Key](#new-ssh-key)
 - [Windows](#windows)
     - [Delete All Files Which Name Includes](#delete-all-files-which-name-includes)
 - [Webcomponents](#webcomponents)
     - [List multi tag elements on website](#list-multi-tag-elements-on-website)
 - [Whatsapp Download All Images](#whatsapp-download-all-images)
+
+## Linux Laptop
+### Disable Closing Lid Sleep Mode
+```bash
+sudo vim /etc/systemd/logind.conf
+# change these
+#HandleLidSwitch=suspend
+HandleLidSwitch=ignore
+
+#LidSwitchIgnoreInhibited=yes
+LidSwitchIgnoreInhibited=no
+
+# restart service
+sudo service systemd-logind restart
+```
+
+### Turn screen off/on
+```bash
+# off
+setterm --blank force
+
+# on
+setterm --blank poke
+```
+
+## SSH
+### New SSH Key
+```bash
+ssh-keygen -t ed25519
+cat ~/.ssh/id_ed25519.pub
+```
+
+SSH Key Settings:
+
+- [GitHub](https://github.com/settings/keys)
+
 
 ## Windows 
 ### Delete All Files Which Name Includes
