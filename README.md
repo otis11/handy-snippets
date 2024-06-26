@@ -75,6 +75,9 @@ IGNORE_LINK_RELS = ['next', 'alternate', 'canonical']
 
 async function downloadScripts() {
     const scriptTags = document.querySelectorAll('script')
+    if (scriptTags.length === 0) {
+        console.warn("No 'script' tags found!")
+    }
     for (let i = 0; i < scriptTags.length; i++) {
         if (!scriptTags[i].src) { continue }
         await new Promise(resolve => setTimeout(resolve, DOWNLOAD_TIMEOUT))
@@ -84,10 +87,25 @@ async function downloadScripts() {
 
 async function downloadLinks() {
     const linkTags = document.querySelectorAll('link')
+    if (linkTags.length === 0) {
+        console.warn("No 'link' tags found!")
+    }
     for (let i = 0; i < linkTags.length; i++) {
         if (IGNORE_LINK_RELS.includes(linkTags[i].rel)) { continue }
         await new Promise(resolve => setTimeout(resolve, DOWNLOAD_TIMEOUT))
         downloadAsset(linkTags[i].href)
+    }
+}
+
+async function downloadImages() {
+    const imgTags = document.querySelectorAll('img')
+    if (imgTags.length === 0) {
+        console.warn("No 'img' tags found!")
+    }
+    for (let i = 0; i < imgTags.length; i++) {
+        if (!imgTags[i].src) { continue }
+        await new Promise(resolve => setTimeout(resolve, DOWNLOAD_TIMEOUT))
+        downloadAsset(imgTags[i].src)
     }
 }
 
