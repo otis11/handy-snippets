@@ -6,8 +6,9 @@
     - [New SSH Key](#new-ssh-key)
 - [Windows](#windows)
     - [Delete All Files Which Name Includes](#delete-all-files-which-name-includes)
-- [Webcomponents](#webcomponents)
+- [Web](#web)
     - [List multi tag elements on website](#list-multi-tag-elements-on-website)
+    - [Download assets from website](#download-assets-from-website)
 - [Whatsapp Download All Images](#whatsapp-download-all-images)
 
 ## Linux Laptop
@@ -56,7 +57,7 @@ SSH Key Settings:
 get-childitem | where-object {$_.Name -like "*FILE_NAME_INCLUDE*"} | foreach ($_) {remove-item $_.fullname}
 ```
 
-## Webcomponents
+## Web
 ### List multi tag elements on website
 Get all multi tag elements on a website
 ```js
@@ -66,6 +67,48 @@ Array.from(document.querySelectorAll('*')).filter(el => el.tagName.includes('-')
 Get all unique multi tags on a website
 ```js
 [...new Set(Array.from(document.querySelectorAll('*')).filter(el => el.tagName.includes('-')).map(el => el.tagName))]
+```
+### Download assets from website
+```js
+DOWNLOAD_TIMEOUT = 100 // otherwise browser would not download each file, to faast
+IGNORE_LINK_RELS = ['next', 'alternate', 'canonical']
+
+async function downloadScripts() {
+    const scriptTags = document.querySelectorAll('script')
+    for (let i = 0; i < scriptTags.length; i++) {
+        if (!scriptTags[i].src) { continue }
+        await new Promise(resolve => setTimeout(resolve, DOWNLOAD_TIMEOUT))
+        downloadAsset(scriptTags[i].src)
+    }
+}
+
+async function downloadLinks() {
+    const linkTags = document.querySelectorAll('link')
+    for (let i = 0; i < linkTags.length; i++) {
+        if (IGNORE_LINK_RELS.includes(linkTags[i].rel)) { continue }
+        await new Promise(resolve => setTimeout(resolve, DOWNLOAD_TIMEOUT))
+        downloadAsset(linkTags[i].href)
+    }
+}
+
+async function downloadAsset(resourceUrl) {
+    // load asset
+    const resourceContent = await fetch(resourceUrl).then(res => res.text())
+    let fileName = resourceUrl.split('/').at(-1)
+    fileName = resourceUrl.replace(/(.*?)/, '')
+
+    // create downloadable link
+    const blob = new Blob([resourceContent], { type: 'text/plain' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement("a")
+    link.href = url
+    link.download = String(fileName)
+
+    // download
+    document.body.appendChild(linkElement)
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }))
+    document.body.removeChild(linkElement)
+}
 ```
 
 ### Whatsapp Download All Images
